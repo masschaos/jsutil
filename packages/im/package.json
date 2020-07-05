@@ -1,7 +1,7 @@
 {
-  "name": "jsutil",
+  "name": "@masschaos/im",
   "version": "1.0.0",
-  "description": "Common util packages of our team.",
+  "description": "im",
   "main": "index.js",
   "dependencies": {
     "axios": "^0.19.2"

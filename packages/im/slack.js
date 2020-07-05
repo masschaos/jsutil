@@ -1,5 +1,6 @@
 const axios = require('axios')
 const common = require('./common')
+const config = require('./config')
 
 var TOKEN = null
 var DEBUG_CHANNEL = null
@@ -29,28 +30,50 @@ function setChannels (debugChannelName, infoChannelName, errorChannelName) {
 }
 
 async function debug (message, context) {
-  return await postMessageToSlack(DEBUG_CHANNEL, message, context)
+  const color = config.channelColors.get('debug')
+  return await postMessageToSlack(DEBUG_CHANNEL, message, context, color)
 }
 
 async function info (message, context) {
-  return await postMessageToSlack(INFO_CHANNEL, message, context)
+  const color = config.channelColors.get('info')
+  return await postMessageToSlack(INFO_CHANNEL, message, context, color)
 }
 
 async function error (message, context) {
-  return await postMessageToSlack(ERROR_CHANNEL, message, context)
+  const color = config.channelColors.get('error')
+  return await postMessageToSlack(ERROR_CHANNEL, message, context, color)
 }
 
-function generateAttachments (context) {
+function generateAttachments (context, color) {
   if (context === undefined) {
     return null
   }
-  let fields = context.fields
-  fields = fields.map(field => {
-    field.short = true
-    return field
-  })
+  const fields = []
+  if (common.getType(context) === 'map') {
+    for (var item of context) {
+      const key = item[0].toString()
+      const value = item[1].toString()
+      const field = {
+        title: key,
+        value: value,
+        short: true
+      }
+      fields.push(field)
+    }
+  } else if (common.getType(context) === 'object') {
+    for (var key in context) {
+      key = key.toString()
+      const value = context[key].toString()
+      const field = {
+        title: key,
+        value: value,
+        short: true
+      }
+      fields.push(field)
+    }
+  }
   const attachment = {
-    color: context.color,
+    color: color,
     fields: fields
   }
   return [attachment]
@@ -66,13 +89,13 @@ function checkSettings (channel) {
   return null
 }
 
-async function postMessageToSlack (channel, message, context) {
+async function postMessageToSlack (channel, message, context, color) {
   const err = checkSettings(channel)
   if (err !== null) {
     return common.failedResponse(err)
   }
   const url = 'https://slack.com/api/chat.postMessage'
-  const attachments = generateAttachments(context)
+  const attachments = generateAttachments(context, color)
   const data = {
     channel: channel,
     text: message,

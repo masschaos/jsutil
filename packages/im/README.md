@@ -29,19 +29,6 @@ im.error('hello error')
 * debug(message, context)
 		向debugChannel发送消息
 		message: string类型
-		context: 对象类型，非必需，结构体
-		 {
-		 	"color": "warning",  // good/warning/danger
-			"fields": [
-				{
-					"title": "Test 1",
-					"value": "这是Test1"
-				},
-				{
-					"title": "Test 2",
-					"value": "这是Test2"
-				}
-			]
-		}
+		context: Object/Map类型，非必需
 * info
 * error
