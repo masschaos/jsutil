@@ -1,6 +1,6 @@
 {
   "name": "@masschaos/im",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "im",
   "main": "index.js",
   "dependencies": {
@@ -13,8 +13,8 @@
     "type": "git",
     "url": "git+https://github.com/masschaos/jsutil.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "masschaos",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/masschaos/jsutil/issues"
   },
