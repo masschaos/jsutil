@@ -30,16 +30,16 @@ function setChannels (debugChannelName, infoChannelName, errorChannelName) {
   PROVIDER.setErrorChannel(errorChannelName)
 }
 
-async function debug (message, context) {
-  return await PROVIDER.debug(message, context)
+function debug (message, context) {
+  PROVIDER.debug(message, context)
 }
 
-async function info (message, context) {
-  return await PROVIDER.info(message, context)
+function info (message, context) {
+  PROVIDER.info(message, context)
 }
 
-async function error (message, context) {
-  return await PROVIDER.error(message, context)
+function error (message, context) {
+  PROVIDER.error(message, context)
 }
 
 module.exports = {

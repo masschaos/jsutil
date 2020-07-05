@@ -29,19 +29,19 @@ function setChannels (debugChannelName, infoChannelName, errorChannelName) {
   setErrorChannel(errorChannelName)
 }
 
-async function debug (message, context) {
+function debug (message, context) {
   const color = config.channelColors.get('debug')
-  return await postMessageToSlack(DEBUG_CHANNEL, message, context, color)
+  postMessageToSlack(DEBUG_CHANNEL, message, context, color)
 }
 
-async function info (message, context) {
+function info (message, context) {
   const color = config.channelColors.get('info')
-  return await postMessageToSlack(INFO_CHANNEL, message, context, color)
+  postMessageToSlack(INFO_CHANNEL, message, context, color)
 }
 
-async function error (message, context) {
+function error (message, context) {
   const color = config.channelColors.get('error')
-  return await postMessageToSlack(ERROR_CHANNEL, message, context, color)
+  postMessageToSlack(ERROR_CHANNEL, message, context, color)
 }
 
 function generateAttachments (context, color) {
@@ -89,10 +89,11 @@ function checkSettings (channel) {
   return null
 }
 
-async function postMessageToSlack (channel, message, context, color) {
+function postMessageToSlack (channel, message, context, color) {
   const err = checkSettings(channel)
   if (err !== null) {
-    return common.failedResponse(err)
+    console.log(err)
+    return
   }
   const url = 'https://slack.com/api/chat.postMessage'
   const attachments = generateAttachments(context, color)
@@ -101,7 +102,7 @@ async function postMessageToSlack (channel, message, context, color) {
     text: message,
     attachments: attachments
   }
-  const response = await axios({
+  axios({
     method: 'POST',
     headers: {
       'Content-Type': 'application/json; charset=utf8',
@@ -110,10 +111,14 @@ async function postMessageToSlack (channel, message, context, color) {
     url: url,
     data: data
   })
-  if (response.data.ok === false) {
-    return common.failedResponse(response.data.error)
-  }
-  return common.successResponse()
+    .then(response => {
+      if (response.data.ok === false) {
+        console.log('发送失败: ', response.data.error)
+      }
+    })
+    .catch((e) => {
+      console.log('slack接口调用异常: ', e)
+    })
 }
 
 module.exports = {
