@@ -1,11 +1,7 @@
 {
-  "name": "@masschaos/im",
-  "version": "0.2.0",
-  "description": "im",
-  "main": "index.js",
-  "dependencies": {
-    "axios": "^0.19.2"
-  },
+  "name": "jsutil",
+  "version": "1.0.0",
+  "description": "nodejs utils for our team",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,5 +15,7 @@
     "url": "https://github.com/masschaos/jsutil/issues"
   },
   "homepage": "https://github.com/masschaos/jsutil#readme",
-  "devDependencies": {}
+  "devDependencies": {
+    "standard": "^14.3.4"
+  }
 }
