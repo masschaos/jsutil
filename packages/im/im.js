@@ -15,6 +15,8 @@ module.exports = class IM {
     * @param {string} [options.debugChannel] Debug channel name
     * @param {string} [options.infoChannel] Info channel name
     * @param {string} [options.errorChannel] Error channel name
+    * @param {string} [options.source] Reporter
+    * @param {string} [options.env] Deploy env
     *
     */
   constructor (options) {
@@ -24,6 +26,8 @@ module.exports = class IM {
     this.debugChannel = options.debugChannel || process.env.IM_DEBUG_CHANNEL
     this.infoChannel = options.infoChannel || process.env.IM_INFO_CHANNEL
     this.errorChannel = options.errorChannel || process.env.IM_ERROR_CHANNEL
+    this.source = options.source || process.env.IM_SOURCE
+    this.env = options.env || process.env.IM_ENV
     // switch to real provider
     switch (this.provider) {
       case 'slack':
@@ -32,6 +36,8 @@ module.exports = class IM {
         }
         slack.setToken(this.token)
         slack.setChannels(this.debugChannel, this.infoChannel, this.errorChannel)
+        slack.setSource(this.source)
+        slack.setEnv(this.env)
         this.sender = slack
         break
       default:

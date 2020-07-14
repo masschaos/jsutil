@@ -6,6 +6,8 @@ var TOKEN = null
 var DEBUG_CHANNEL = null
 var INFO_CHANNEL = null
 var ERROR_CHANNEL = null
+var SOURCE = null
+var ENV = null
 
 function setToken (tokenValue) {
   TOKEN = tokenValue
@@ -29,6 +31,14 @@ function setChannels (debugChannelName, infoChannelName, errorChannelName) {
   setErrorChannel(errorChannelName)
 }
 
+function setSource (source) {
+  SOURCE = source
+}
+
+function setEnv (env) {
+  ENV = env
+}
+
 function debug (message, context) {
   const color = config.channelColors.get('debug')
   postMessageToSlack(DEBUG_CHANNEL, message, context, color)
@@ -45,10 +55,21 @@ function error (message, context) {
 }
 
 function generateAttachments (context, color) {
-  if (context === undefined) {
-    return null
-  }
   const fields = []
+  if (SOURCE) {
+    fields.push({
+      title: '来源程序',
+      value: SOURCE,
+      short: true
+    })
+  }
+  if (ENV) {
+    fields.push({
+      title: '部署环境',
+      value: ENV,
+      short: true
+    })
+  }
   if (common.getType(context) === 'map') {
     for (var item of context) {
       const key = item[0].toString()
@@ -127,6 +148,8 @@ module.exports = {
   setInfoChannel,
   setErrorChannel,
   setChannels,
+  setSource,
+  setEnv,
   debug,
   info,
   error

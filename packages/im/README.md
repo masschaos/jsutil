@@ -14,9 +14,11 @@ const IM = require('@masschaos/im')
 const im = new IM({
   provider: 'slack', // slack is default
   token: 'your slack token',
-  debugChannel: 'dev',
+  debugChannel: 'dev', // 频道名称
   infoChannel: 'info',
-  errorChannel: 'error'
+  errorChannel: 'error',
+  source: '某某服务', // 来源程序
+  env: '开发' // 部署环境
 })
 
 im.debug('hello debug')
@@ -33,6 +35,8 @@ im.error('hello error')
 * IM_DEBUG_CHANNEL
 * IM_INFO_CHANNEL
 * IM_ERROR_CHANNEL
+* IM_SOURCE
+* IM_ENV
 
 ## 函数列表
 
