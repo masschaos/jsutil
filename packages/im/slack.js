@@ -71,33 +71,29 @@ function generateAttachments (context, color) {
     })
   }
   if (common.getType(context) === 'map') {
-    for (var item of context) {
-      const key = item[0].toString()
-      const value = item[1].toString()
+    for (const item of context) {
+      const title = String(item[0])
+      const value = String(item[1])
       const field = {
-        title: key,
-        value: value,
+        title,
+        value,
         short: true
       }
       fields.push(field)
     }
   } else if (common.getType(context) === 'object') {
-    for (var key in context) {
-      key = key.toString()
-      const value = context[key].toString()
+    for (const key in context) {
+      const title = String(key)
+      const value = String(context[key])
       const field = {
-        title: key,
-        value: value,
+        title,
+        value,
         short: true
       }
       fields.push(field)
     }
   }
-  const attachment = {
-    color: color,
-    fields: fields
-  }
-  return [attachment]
+  return [{ color, fields }]
 }
 
 function checkSettings (channel) {
