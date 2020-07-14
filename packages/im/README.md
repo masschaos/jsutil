@@ -24,6 +24,16 @@ im.info('hello info')
 im.error('hello error')
 ```
 
+## 环境变量
+
+初始化时的参数全部支持使用环境变量，环境变量提供的参数初始化时可以不再提供。
+
+* IM_PROVIDER
+* IM_TOKEN
+* IM_DEBUG_CHANNEL
+* IM_INFO_CHANNEL
+* IM_ERROR_CHANNEL
+
 ## 函数列表
 
 * debug(message, context)
