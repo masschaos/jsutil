@@ -2,7 +2,7 @@
   "name": "@masschaos/im",
   "version": "0.2.0",
   "description": "im",
-  "main": "index.js",
+  "main": "im.js",
   "dependencies": {
     "axios": "^0.19.2"
   },

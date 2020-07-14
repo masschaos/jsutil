@@ -1,55 +1,53 @@
 const slack = require('./slack')
 
-var providers = new Map()
-providers.set('slack', slack)
-var PROVIDER = slack
+module.exports = class IM {
+  /**
+   * Initialize a new `IM`.
+   *
+   * @api public
+   */
 
-function setProvider (providerName) {
-  PROVIDER = providers.get(providerName)
-}
+  /**
+    *
+    * @param {object} [options] Application options
+    * @param {string} [options.provider='slack'] IM provider
+    * @param {string} [options.token] IM app token required by provider
+    * @param {string} [options.debugChannel] Debug channel name
+    * @param {string} [options.infoChannel] Info channel name
+    * @param {string} [options.errorChannel] Error channel name
+    *
+    */
+  constructor (options) {
+    options = options || {}
+    this.provider = options.provider || process.env.IM_PROVIDER || 'slack'
+    this.token = options.token || process.env.IM_TOKEN
+    this.debugChannel = options.debugChannel || process.env.IM_DEBUG_CHANNEL
+    this.infoChannel = options.infoChannel || process.env.IM_INFO_CHANNEL
+    this.errorChannel = options.errorChannel || process.env.IM_ERROR_CHANNEL
+    // switch to real provider
+    switch (this.provider) {
+      case 'slack':
+        if (!(this.token && this.debugChannel && this.infoChannel && this.errorChannel)) {
+          throw new Error('im init failed, missing slack token or channel option')
+        }
+        slack.setToken(this.token)
+        slack.setChannels(this.debugChannel, this.infoChannel, this.errorChannel)
+        this.sender = slack
+        break
+      default:
+        throw new Error(`im init failed, invalid provider option: ${this.provider}`)
+    }
+  }
 
-function setToken (token) {
-  PROVIDER.setToken(token)
-}
+  debug (message, context) {
+    this.sender.debug(message, context)
+  }
 
-function setDebugChannel (channelName) {
-  PROVIDER.setDebugChannel(channelName)
-}
+  info (message, context) {
+    this.sender.info(message, context)
+  }
 
-function setInfoChannel (channelName) {
-  PROVIDER.setInfoChannel(channelName)
-}
-
-function setErrorChannel (channelName) {
-  PROVIDER.setErrorChannel(channelName)
-}
-
-function setChannels (debugChannelName, infoChannelName, errorChannelName) {
-  PROVIDER.setDebugChannel(debugChannelName)
-  PROVIDER.setInfoChannel(infoChannelName)
-  PROVIDER.setErrorChannel(errorChannelName)
-}
-
-function debug (message, context) {
-  PROVIDER.debug(message, context)
-}
-
-function info (message, context) {
-  PROVIDER.info(message, context)
-}
-
-function error (message, context) {
-  PROVIDER.error(message, context)
-}
-
-module.exports = {
-  setProvider,
-  setToken,
-  setDebugChannel,
-  setInfoChannel,
-  setErrorChannel,
-  setChannels,
-  debug,
-  info,
-  error
+  error (message, context) {
+    this.sender.error(message, context)
+  }
 }

@@ -1,7 +1,11 @@
-const im = require('./')
+const IM = require('./')
 
-im.setToken(process.env.SLACK_TOKEN)
-im.setChannels('dev', 'dev', 'dev')
+const im = new IM({
+  debugChannel: 'dev',
+  infoChannel: 'dev',
+  errorChannel: 'dev'
+})
+
 const context = {
   1: '这是Test1',
   Test2: '这是Test2',
