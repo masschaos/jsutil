@@ -47,13 +47,16 @@ module.exports = class IM {
 
   debug (message, context) {
     this.sender.debug(message, context)
+    console.log(message, context)
   }
 
   info (message, context) {
     this.sender.info(message, context)
+    console.log(message, context)
   }
 
   error (message, context) {
     this.sender.error(message, context)
+    console.error(message, context)
   }
 }
