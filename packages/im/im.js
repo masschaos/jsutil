@@ -15,6 +15,7 @@ module.exports = class IM {
     * @param {string} [options.debugChannel] Debug channel name
     * @param {string} [options.infoChannel] Info channel name
     * @param {string} [options.errorChannel] Error channel name
+    * @param {string} [options.logger] A pino compatible logger
     * @param {string} [options.source] Reporter
     * @param {string} [options.env] Deploy env
     *
@@ -28,6 +29,7 @@ module.exports = class IM {
     this.errorChannel = options.errorChannel || process.env.IM_ERROR_CHANNEL
     this.source = options.source || process.env.IM_SOURCE
     this.env = options.env || process.env.IM_ENV
+    this.logger = options.logger
     // switch to real provider
     switch (this.provider) {
       case 'slack':
@@ -47,16 +49,22 @@ module.exports = class IM {
 
   debug (message, context) {
     this.sender.debug(message, context)
-    console.log(message, context)
+    if (this.logger) {
+      this.logger.debug(context, message)
+    }
   }
 
   info (message, context) {
     this.sender.info(message, context)
-    console.log(message, context)
+    if (this.logger) {
+      this.logger.info(context, message)
+    }
   }
 
   error (message, context) {
     this.sender.error(message, context)
-    console.error(message, context)
+    if (this.logger) {
+      this.logger.error(context, message)
+    }
   }
 }
