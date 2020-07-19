@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "nodejs utils for our team",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint packages",
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -16,6 +17,11 @@
   },
   "homepage": "https://github.com/masschaos/jsutil#readme",
   "devDependencies": {
-    "standard": "^14.3.4"
+    "eslint": "^7.5.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
   }
 }
