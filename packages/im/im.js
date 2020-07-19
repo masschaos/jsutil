@@ -10,7 +10,7 @@ module.exports = class IM {
   /**
     *
     * @param {object} [options] Application options
-    * @param {string} [options.provider='slack'] IM provider
+    * @param {string} [options.provider='slack'] IM provider, debug for local debug only
     * @param {string} [options.token] IM app token required by provider
     * @param {string} [options.debugChannel] Debug channel name
     * @param {string} [options.infoChannel] Info channel name
@@ -30,6 +30,7 @@ module.exports = class IM {
     this.source = options.source || process.env.IM_SOURCE
     this.env = options.env || process.env.IM_ENV
     this.logger = options.logger
+    this.debugMode = false
     // switch to real provider
     switch (this.provider) {
       case 'slack':
@@ -42,27 +43,36 @@ module.exports = class IM {
         slack.setEnv(this.env)
         this.sender = slack
         break
+      case 'debug':
+        this.debugMode = true
+        break
       default:
         throw new Error(`im init failed, invalid provider option: ${this.provider}`)
     }
   }
 
   debug (message, context) {
-    this.sender.debug(message, context)
+    if (!this.debugMode) {
+      this.sender.debug(message, context)
+    }
     if (this.logger) {
       this.logger.debug(context, message)
     }
   }
 
   info (message, context) {
-    this.sender.info(message, context)
+    if (!this.debugMode) {
+      this.sender.info(message, context)
+    }
     if (this.logger) {
       this.logger.info(context, message)
     }
   }
 
   error (message, context) {
-    this.sender.error(message, context)
+    if (!this.debugMode) {
+      this.sender.error(message, context)
+    }
     if (this.logger) {
       this.logger.error(context, message)
     }
