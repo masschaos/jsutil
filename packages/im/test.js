@@ -1,6 +1,7 @@
 const IM = require('./')
 
 const im = new IM({
+  provider: 'debug',
   debugChannel: 'dev',
   infoChannel: 'dev',
   errorChannel: 'dev',
@@ -14,7 +15,7 @@ const context = {
   Test3: '这是Test3'
 }
 const context1 = new Map()
-context1.set('123', 'ssss')
+context1.set('123', 'hello')
 context1.set('123456', [1, 2, 3])
 
 im.debug('debug !!!')

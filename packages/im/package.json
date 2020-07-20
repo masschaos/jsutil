@@ -1,13 +1,13 @@
 {
   "name": "@masschaos/im",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "im",
   "main": "im.js",
   "dependencies": {
     "axios": "^0.19.2"
   },
   "scripts": {
-    "test": "standard"
+    "test": "node test"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,5 @@
     "url": "https://github.com/masschaos/jsutil/issues"
   },
   "homepage": "https://github.com/masschaos/jsutil#readme",
-  "devDependencies": {
-    "standard": "^14.3.4"
-  }
+  "devDependencies": {}
 }

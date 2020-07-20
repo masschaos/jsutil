@@ -29,7 +29,7 @@ module.exports = class IM {
     this.errorChannel = options.errorChannel || process.env.IM_ERROR_CHANNEL
     this.source = options.source || process.env.IM_SOURCE
     this.env = options.env || process.env.IM_ENV
-    this.logger = options.logger
+    this.logger = options.logger || console
     this.debugMode = false
     // switch to real provider
     switch (this.provider) {
@@ -56,7 +56,7 @@ module.exports = class IM {
       this.sender.debug(message, context)
     }
     if (this.logger) {
-      this.logger.debug(context, message)
+      this.logger.debug({ context }, message)
     }
   }
 
@@ -65,7 +65,7 @@ module.exports = class IM {
       this.sender.info(message, context)
     }
     if (this.logger) {
-      this.logger.info(context, message)
+      this.logger.info({ context }, message)
     }
   }
 
@@ -74,7 +74,7 @@ module.exports = class IM {
       this.sender.error(message, context)
     }
     if (this.logger) {
-      this.logger.error(context, message)
+      this.logger.error({ context }, message)
     }
   }
 }
