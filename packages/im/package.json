@@ -1,6 +1,6 @@
 {
   "name": "@masschaos/im",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "im",
   "main": "im.js",
   "dependencies": {
